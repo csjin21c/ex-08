@@ -1,0 +1,22 @@
+name: Auto-Scaling-Instance-Deployment-Pipeline
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # IAM 사용자 액세스 키
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # IAM 사용자 비밀 키
+        aws-region: ${{ secrets.AWS_REGION }} # 대상 AWS 리전
+    
+    - name: Upload Config and Assets to S3
+      run: |
+        aws s3 cp ./default.conf s3://${{ secrets.S3_BUCKET_NAME }}/config/default.conf
+        aws s3 sync ./html/ s3://${{ secrets.S3_BUCKET_NAME }}/html/ --delete
