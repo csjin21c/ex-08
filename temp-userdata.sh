@@ -2,7 +2,7 @@
 # 1. 환경 변수 설정
 REGION="ap-south-1"
 ACCOUNT_ID="626635419731"
-S3_BUCKET="static.hands-on.kr"
+S3_BUCKET="ian-ex-bucket"
 ECR_REPO="ian/nginx"
 IMAGE_TAG="1.29.7-alpine-latest"
 ECR_URL="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
