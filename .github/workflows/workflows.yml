@@ -40,3 +40,14 @@ jobs:
 
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      # AWS SSM을 통해 EC2인스턴스에 접속하여 실제 배포명령 배포
+      - name: Deploy to EC2 using SSM
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=tag:Namespace,Values=ian-asg" \
+            --parameters 'commands=[
+              "aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/config/default.conf /home/ec2-user/nginx/conf.d/default.conf",
+              "aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/html/ /home/ec2-user/nginx/html/ --delete"
+              ]' \
+            --region ${{ secrets.AWS_REGION }}
