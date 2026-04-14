@@ -4,7 +4,7 @@ REGION="ap-south-1"
 ACCOUNT_ID="626635419731"
 S3_BUCKET="ian-ex-bucket"
 ECR_REPO="ian/nginx"
-IMAGE_TAG="1.29.7-alpine-latest"
+IMAGE_TAG="latest"
 ECR_URL="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
 IMAGE_URI="${ECR_URL}/${ECR_REPO}:${IMAGE_TAG}"
 
